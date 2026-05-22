@@ -257,6 +257,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Manage tagging for a time-limited membership product](./manage-tagging-for-a-time-limited-membership-product)
 * [Mechanic tour task](./mechanic-tour-task)
 * [Monitor customer note for certain information](./monitor-customer-note-for-certain-information)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Monitor smart collections for product membership changes](./monitor-smart-collections-for-product-membership-changes)
 * [Move out-of-stock products to the end of a collection](./move-out-of-stock-products-to-the-end-of-a-collection)
 * [Notify a team when a tagged product is ordered](./notify-a-team-when-a-tagged-product-is-ordered)
@@ -413,6 +414,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Error reporter](./error-reporter)
 * [Flag orders that aren't fulfilled after several days](./flag-orders-that-arent-fulfilled-after-two-days)
 * [Get email alerts for out of stock products](./get-email-alerts-for-out-of-stock-products)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Receive email alerts when inventory levels change](./receive-email-alerts-when-inventory-levels-change)
 * [Send a staff notification email for each delivery](./send-a-staff-notification-email-for-each-delivery)
 * [Send an email alert on fulfillment failure](./fulfillment-failure-email)
@@ -667,6 +669,10 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Report Toaster: Pirate Ship Integration](./report-toaster-pirateship-integration)
 * [Report Toaster: ShipStation Integration](./report-toaster-shipstation-integration)
 * [Send an email when a product's price goes below its cost](./send-an-email-when-a-products-price-goes-below-its-cost)
+
+### Custom Webhook
+
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 
 ### Customer Notes
 
@@ -1361,6 +1367,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Advanced: Scheduled Price Changes](./advanced-scheduled-price-changes)
 * [Auto-price products based on their compare-at prices](./auto-price-products-based-on-their-compare-at-prices)
 * [Maintain discount percentage filters in variant metafields](./maintain-discount-percentage-filters-in-variant-metafields)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Send an email when a product's price goes below its cost](./send-an-email-when-a-products-price-goes-below-its-cost)
 * [Tag products by their price ranges](./tag-products-by-their-price-ranges)
 
@@ -1436,6 +1443,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Make products unavailable, after the date/time stored in product metafields](./make-products-unavailable-after-the-date-time-stored-in-product-metafields)
 * [Manage product market access by location stock status](./manage-product-market-access-by-location-stock-status)
 * [Manage tagging for a time-limited membership product](./manage-tagging-for-a-time-limited-membership-product)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Monitor smart collections for product membership changes](./monitor-smart-collections-for-product-membership-changes)
 * [Notify a team when a tagged product is ordered](./notify-a-team-when-a-tagged-product-is-ordered)
 * [Publish back-in-stock products](./publish-back-in-stock-products)
@@ -1831,6 +1839,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Demonstration: Trigger a custom event for specific product or variant changes](./demonstration-trigger-a-custom-event-for-specific-product-or-variant-changes)
 * [Keep variant inventory in sync across locations](./keep-variant-inventory-in-sync-across-locations)
 * [Maintain discount percentage filters in variant metafields](./maintain-discount-percentage-filters-in-variant-metafields)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Scheduled inventory adjustment](./scheduled-inventory-adjustment)
 * [Send an email when a product's price goes below its cost](./send-an-email-when-a-products-price-goes-below-its-cost)
 * [Set product or variant metafields values in bulk](./set-product-or-variant-metafields-in-bulk)
@@ -1871,6 +1880,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Generate a product discount when a voucher product is purchased](./generate-a-product-discount-when-a-voucher-product-is-purchased)
 * [Maintain a collection of new products](./maintain-a-collection-of-new-products)
 * [Monitor customer note for certain information](./monitor-customer-note-for-certain-information)
+* [Monitor for variants with zero price](./monitor-for-variants-with-zero-price)
 * [Monitor smart collections for product membership changes](./monitor-smart-collections-for-product-membership-changes)
 * [Notify a team when a tagged product is ordered](./notify-a-team-when-a-tagged-product-is-ordered)
 * [Remove a customer tag when another tag is added](./remove-a-customer-tag-when-another-tag-is-added)
