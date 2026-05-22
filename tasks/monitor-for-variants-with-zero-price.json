@@ -1,0 +1,27 @@
+{
+  "docs": "Use this task to send an email alert any time an active, published product is updated that has one or more variants with a zero price. Optionally choose to cache the alerts for X number of hours, so the task does not alert on the same product in that time period.\n\n**IMPORTANT**: This task requires a [custom Shopify webhook](https://learn.mechanic.dev/platform/shopify/custom-webhooks) to be enabled and configured as follows:\n- _Name_: (suggested - \"Variants with zero price\")\n- _Mechanic topic_: (must start with `user/`, must match what you configure in this task configuration)\n- _Shopify topic_: `shopify/products/update`\n- _Filter_: `variants.price:\"0.00\" AND status:active AND published_at:*`\n- _Include fields_:\n    - id\n    - updated_at\n    - title\n    - status\n    - published_at\n    - variants.id\n    - variants.updated_at\n    - variants.title\n    - variants.sku\n    - variants.price\n\nAlternatively, copy the custom webhook JSON import from [here](https://learn.mechanic.dev/resources/task-library/custom-webhook-imports).",
+  "halt_action_run_sequence_on_error": false,
+  "name": "Monitor for variants with zero price",
+  "online_store_javascript": null,
+  "options": {
+    "mechanic_user_topic__required": "user/product_update/variants_zero_price",
+    "alert_email_recipients__array_required": null,
+    "cache_alert_for_x_hours__number": null
+  },
+  "order_status_javascript": "",
+  "perform_action_runs_in_sequence": false,
+  "preview_event_definitions": [],
+  "script": "{% assign mechanic_user_topic = options.mechanic_user_topic__required %}\n{% assign alert_email_recipients = options.alert_email_recipients__array_required %}\n{% assign cache_alert_seconds = options.cache_alert_for_x_hours__number | round: 0 | at_least: 0 | times: 3600 %}\n\n{% if event.topic == mechanic_user_topic %}\n  {% if event.preview %}\n    {% capture product_json %}\n      {\n        \"id\": 1234567890,\n        \"title\": \"Analog Short\",\n        \"status\": \"active\",\n        \"published_at\": \"2026-05-02T17:21:53-07:00\",\n        \"variants\": [\n          {\n            \"id\": 1234567890,\n            \"title\": \"White\",\n            \"sku\": \"ALOG-SHR-WT\",\n            \"price\": \"0.00\"\n          }\n        ]\n      }\n    {% endcapture %}\n  \n    {% assign product = product_json | parse_json %}\n  {% endif %}\n\n  {% comment %}\n    -- this custom webhook should only fire if the product is active, published to the online store, and has at least one variant with a no price\n    -- BUT, let's check all that just in case :)\n  {% endcomment %}\n\n  {% assign zero_price_variants\n    = product.variants\n    | where: \"price\", \"0.00\"\n    | sort: \"id\"\n  %}\n\n  {% if product.status != \"active\" or product.published_at == blank or zero_price_variants == blank %}\n    {% log \"This product is either not active, not published to the Online Store, or does not have any zero price variants.\" %}\n    {% break %}\n  {% endif %}\n\n  {% log zero_price_variants: zero_price_variants %}\n\n  {% if cache_alert_seconds > 0 %}\n    {% comment %}\n      -- check to see if this task has already alerted on this product in the cache period\n    {% endcomment %}\n\n    {% assign cache_key = \"mechanic-monitor-zero-price-variants-\" | append: product.id %}\n\n    {% assign cached_value = cache[cache_key] %}\n\n    {% if cached_value == \"1\" %}\n      {% log \"This task has previously alerted on this product and we're still in the cache period.\" %}\n      {% break %}\n    {% endif %}\n\n    {% action \"cache\", \"setex\", cache_key, cache_alert_seconds, \"1\" %}\n  {% endif %}\n\n  {% comment %}\n    -- send email alert\n  {% endcomment %}\n\n  {%- capture alert_email_subject -%}\n    Zero price variants found on product \"{{ product.title }}\"\n  {%- endcapture -%}\n\n  {%- capture alert_email_body -%}\n    <p>The following variants have a price of zero on {{ product.title }}, which is active and published to the Online Store.</p>\n\n    <ul>\n    {% for variant in zero_price_variants %}\n      {%- capture title -%}\n        {{ product.title }}{% if variant.title != \"Default Title\" %} - {{ variant.title }}{% endif %}{% if variant.sku %} ({{ variant.sku }}){% endif %}\n      {%- endcapture -%}\n      <li>\n      {% if event.preview %}\n        {{ title }}\n      {% else %}\n        <a href=\"{{ shop.admin_url }}products/{{ product.id }}/variants/{{ variant.id }}\">{{ title }}</a>\n      {% endif %}\n      </li>\n    {% endfor %}\n    </ul>\n\n    <p>- Mechanic for {{ shop.name }}</p>\n  {%- endcapture -%}\n\n  {% action \"email\" %}\n    {\n      \"to\": {{ alert_email_recipients | json }},\n      \"subject\": {{ alert_email_subject | json }},\n      \"body\": {{ alert_email_body | json }},\n      \"reply_to\": {{ shop.customer_email | json }},\n      \"from_display_name\": {{ shop.name | json }}\n    }\n  {% endaction %}\n{% endif %}",
+  "subscriptions": [
+    "user/product_update/variants_zero_price"
+  ],
+  "subscriptions_template": "user/product_update/variants_zero_price",
+  "tags": [
+    "Alert",
+    "Custom Webhook",
+    "Price",
+    "Products",
+    "Variants",
+    "Watch"
+  ]
+}

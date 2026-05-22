@@ -1,0 +1,100 @@
+{% assign mechanic_user_topic = options.mechanic_user_topic__required %}
+{% assign alert_email_recipients = options.alert_email_recipients__array_required %}
+{% assign cache_alert_seconds = options.cache_alert_for_x_hours__number | round: 0 | at_least: 0 | times: 3600 %}
+
+{% if event.topic == mechanic_user_topic %}
+  {% if event.preview %}
+    {% capture product_json %}
+      {
+        "id": 1234567890,
+        "title": "Analog Short",
+        "status": "active",
+        "published_at": "2026-05-02T17:21:53-07:00",
+        "variants": [
+          {
+            "id": 1234567890,
+            "title": "White",
+            "sku": "ALOG-SHR-WT",
+            "price": "0.00"
+          }
+        ]
+      }
+    {% endcapture %}
+  
+    {% assign product = product_json | parse_json %}
+  {% endif %}
+
+  {% comment %}
+    -- this custom webhook should only fire if the product is active, published to the online store, and has at least one variant with a no price
+    -- BUT, let's check all that just in case :)
+  {% endcomment %}
+
+  {% assign zero_price_variants
+    = product.variants
+    | where: "price", "0.00"
+    | sort: "id"
+  %}
+
+  {% if product.status != "active" or product.published_at == blank or zero_price_variants == blank %}
+    {% log "This product is either not active, not published to the Online Store, or does not have any zero price variants." %}
+    {% break %}
+  {% endif %}
+
+  {% log zero_price_variants: zero_price_variants %}
+
+  {% if cache_alert_seconds > 0 %}
+    {% comment %}
+      -- check to see if this task has already alerted on this product in the cache period
+    {% endcomment %}
+
+    {% assign cache_key = "mechanic-monitor-zero-price-variants-" | append: product.id %}
+
+    {% assign cached_value = cache[cache_key] %}
+
+    {% if cached_value == "1" %}
+      {% log "This task has previously alerted on this product and we're still in the cache period." %}
+      {% break %}
+    {% endif %}
+
+    {% action "cache", "setex", cache_key, cache_alert_seconds, "1" %}
+  {% endif %}
+
+  {% comment %}
+    -- send email alert
+  {% endcomment %}
+
+  {%- capture alert_email_subject -%}
+    Zero price variants found on product "{{ product.title }}"
+  {%- endcapture -%}
+
+  {%- capture alert_email_body -%}
+    <p>The following variants have a price of zero on {{ product.title }}, which is active and published to the Online Store.</p>
+
+    <ul>
+    {% for variant in zero_price_variants %}
+      {%- capture title -%}
+        {{ product.title }}{% if variant.title != "Default Title" %} - {{ variant.title }}{% endif %}{% if variant.sku %} ({{ variant.sku }}){% endif %}
+      {%- endcapture -%}
+      <li>
+      {% if event.preview %}
+        {{ title }}
+      {% else %}
+        <a href="{{ shop.admin_url }}products/{{ product.id }}/variants/{{ variant.id }}">{{ title }}</a>
+      {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+
+    <p>- Mechanic for {{ shop.name }}</p>
+  {%- endcapture -%}
+
+  {% action "email" %}
+    {
+      "to": {{ alert_email_recipients | json }},
+      "subject": {{ alert_email_subject | json }},
+      "body": {{ alert_email_body | json }},
+      "reply_to": {{ shop.customer_email | json }},
+      "from_display_name": {{ shop.name | json }}
+    }
+  {% endaction %}
+{% endif %}
