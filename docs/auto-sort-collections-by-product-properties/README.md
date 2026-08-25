@@ -57,6 +57,8 @@ Optionally, choose the "Reverse sort" option to have the results reversed, mainl
 - The property you choose should be a `DateTime`, `Int`, or `String` field on the [GraphQL Product](https://shopify.dev/docs/api/admin-graphql/latest/objects/Product) or [GraphQL ProductVariant](https://shopify.dev/docs/api/admin-graphql/latest/objects/ProductVariant) resource, otherwise the task will generate an error during execution.
 - Products with values for a property/metafield will always be placed before products with no values. This rule applies even when the sort order is reversed.
 - If a metafield is configured that does not exist, the task will just report that no moves are needed. No error will be thrown.
+- This task must be used with 2026-07 API and higher if any of the collections it will process are using newer features (e.g. sources, variants)
+- If a collection is using a variants source and this task is configured with a "First variant property" value, then the task will still continue to review only the property of the first variant of the product, regardless of whether that specific variant is included in the source.
 
 ## Installing this task
 

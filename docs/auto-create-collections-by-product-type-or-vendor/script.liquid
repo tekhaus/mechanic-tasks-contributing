@@ -272,6 +272,11 @@
     {% endif %}
   {% endfor %}
 
+
+  {% comment %}
+    -- create collections with a source instead of a ruleSet (as of 2026-07 API)
+  {% endcomment %}
+
   {% assign existing_collections = array %}
 
   {% if create_collections_by_product_type %}
@@ -291,18 +296,28 @@
       {% action "shopify", __meta: meta %}
         mutation {
           collectionCreate(
-            input: {
-              title: {{ product_type | json }}
-              ruleSet: {
-                appliedDisjunctively: false
-                rules: [
-                  {
-                    column: TYPE
-                    relation: EQUALS
-                    condition: {{ product_type | json }}
+            collection: {
+              title: {{ product_type | json }},
+              sources: [
+                {
+                  source: {
+                    title: {{ product_type | prepend: "product type: " | json }},
+                    targetType: PRODUCTS,
+                    inclusion: {
+                      matchType: ALL,
+                      conditions: [
+                        {
+                          productType: {
+                            relation: EQUALS
+                            values: {{ product_type | json }}
+                            matchType: ANY
+                          }
+                        }
+                      ]
+                    }
                   }
-                ]
-              }
+                }
+              ]
             }
           ) {
             collection {
@@ -337,18 +352,28 @@
       {% action "shopify", __meta: meta %}
         mutation {
           collectionCreate(
-            input: {
-              title: {{ vendor | json }}
-              ruleSet: {
-                appliedDisjunctively: false
-                rules: [
-                  {
-                    column: VENDOR
-                    relation: EQUALS
-                    condition: {{ vendor | json }}
+            collection: {
+              title: {{ vendor | json }},
+              sources: [
+                {
+                  source: {
+                    title: {{ vendor | prepend: "vendor: " | json }},
+                    targetType: PRODUCTS,
+                    inclusion: {
+                      matchType: ALL,
+                      conditions: [
+                        {
+                          productVendor: {
+                            relation: EQUALS
+                            values: {{ vendor | json }}
+                            matchType: ANY
+                          }
+                        }
+                      ]
+                    }
                   }
-                ]
-              }
+                }
+              ]
             }
           ) {
             collection {
@@ -391,7 +416,7 @@
 
   {% action "shopify", __perform_event: false %}
     mutation {
-      publishablePublish{{ forloop.index }}: publishablePublish(
+      publishablePublish(
         id: {{ collection_id | json }}
         input: [
           {% for publication_id in publication_ids %}

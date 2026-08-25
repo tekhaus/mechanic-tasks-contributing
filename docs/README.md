@@ -145,7 +145,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Auto-tag products by age](./auto-tag-new-products-by-age)
 * [Auto-tag products by their options](./auto-tag-products-by-their-options)
 * [Auto-tag products by their publish date](./auto-tag-products-by-their-publish-date)
-* [Auto-tag products in a manual collection](./auto-tag-products-in-a-manual-collection)
+* [Auto-tag products in collections](./auto-tag-products-in-a-manual-collection)
 * [Auto-tag products that are missing costs](./auto-tag-products-that-are-missing-costs)
 * [Auto-tag products that have a "compare at" price](./auto-tag-products-that-have-a-compare-at-price)
 * [Auto-tag products that meet a sales threshold](./auto-tag-products-that-meet-a-sales-threshold)
@@ -522,7 +522,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Auto-tag products by age](./auto-tag-new-products-by-age)
 * [Auto-tag products by their options](./auto-tag-products-by-their-options)
 * [Auto-tag products by their publish date](./auto-tag-products-by-their-publish-date)
-* [Auto-tag products in a manual collection](./auto-tag-products-in-a-manual-collection)
+* [Auto-tag products in collections](./auto-tag-products-in-a-manual-collection)
 * [Auto-tag products that are missing costs](./auto-tag-products-that-are-missing-costs)
 * [Auto-tag products that have a "compare at" price](./auto-tag-products-that-have-a-compare-at-price)
 * [Auto-tag products that meet a sales threshold](./auto-tag-products-that-meet-a-sales-threshold)
@@ -643,7 +643,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Auto-sort collections by a product property](./auto-sort-collections-by-product-properties)
 * [Auto-sort collections by inventory levels](./auto-sort-collections-by-inventory-levels)
 * [Auto-tag orders by product collections](./auto-tag-orders-by-product-collections)
-* [Auto-tag products in a manual collection](./auto-tag-products-in-a-manual-collection)
+* [Auto-tag products in collections](./auto-tag-products-in-a-manual-collection)
 * [Delete the oldest x products from a specific collection](./delete-the-oldest-x-products-from-a-specific-collection)
 * [Maintain a collection of new products](./maintain-a-collection-of-new-products)
 * [Maintain a collection of recently purchased products](./maintain-a-collection-of-recently-purchased-products)
@@ -654,6 +654,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Publish a certain collection, daily](./publish-a-certain-collection-daily)
 * [Send an email alert if a new collection has no orders after x days](./send-an-email-alert-if-a-new-collection-has-no-orders-after-x-days)
 * [Send an email when a purchase is made from a certain collection](./send-an-email-when-a-purchase-is-made-from-a-certain-collection)
+* [Sort collections by recent sales performance](./sort-collections-by-recent-sales-performance)
 * [Unpublish a certain collection, daily](./unpublish-a-certain-collection-daily)
 
 ### Comments
@@ -1416,7 +1417,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Auto-tag products by age](./auto-tag-new-products-by-age)
 * [Auto-tag products by their options](./auto-tag-products-by-their-options)
 * [Auto-tag products by their publish date](./auto-tag-products-by-their-publish-date)
-* [Auto-tag products in a manual collection](./auto-tag-products-in-a-manual-collection)
+* [Auto-tag products in collections](./auto-tag-products-in-a-manual-collection)
 * [Auto-tag products that are missing costs](./auto-tag-products-that-are-missing-costs)
 * [Auto-tag products that have a "compare at" price](./auto-tag-products-that-have-a-compare-at-price)
 * [Auto-tag products that meet a sales threshold](./auto-tag-products-that-meet-a-sales-threshold)
@@ -1690,6 +1691,7 @@ This directory is built automatically. Each task's documentation is generated fr
 * [Auto-sort collections by a product property](./auto-sort-collections-by-product-properties)
 * [Auto-sort collections by inventory levels](./auto-sort-collections-by-inventory-levels)
 * [Move out-of-stock products to the end of a collection](./move-out-of-stock-products-to-the-end-of-a-collection)
+* [Sort collections by recent sales performance](./sort-collections-by-recent-sales-performance)
 
 ### Spend
 
@@ -1811,7 +1813,6 @@ This directory is built automatically. Each task's documentation is generated fr
 ### Uncategorized
 
 * [Mechanic tour task](./mechanic-tour-task)
-* [Sort collections by recent sales performance](./sort-collections-by-recent-sales-performance)
 * [Sync in stock locations to a variant metafield](./sync-in-stock-locations-to-a-variant-metafield)
 
 ### Unpaid
